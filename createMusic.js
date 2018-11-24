@@ -1,5 +1,5 @@
-var folderMusic = "@fox_music/music";
-var cpp = '@fox_music/config.cpp';
+var folderMusic = "@fox_music/addons/@fox_music/music";
+var cpp = '@fox_music/addons/@fox_music/config.cpp';
 
 
 var header = '\
@@ -27,7 +27,12 @@ subfolder.forEach(function(artist) {
   var musicTracks = fs.readdirSync(folderMusic + "/" + artist);
   musicTracks.forEach(function(musicTrack) {
     console.log("->" + musicTrack);
-    var title = musicTrack.slice(0, -4);
+
+		//remove spacer once
+		var musicTrackNew = musicTrack.split(" ").join("_").split("-").join("");
+		fs.renameSync(folderMusic + "/" + artist + "/" + musicTrack, folderMusic + "/" + artist + "/" + musicTrackNew);
+
+    var title = musicTrackNew.slice(0, -4);
 		listMusic.push(title);
     fs.appendFileSync(cpp,'\
       class '+title+'\r\n\
